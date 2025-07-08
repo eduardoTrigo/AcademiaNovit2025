@@ -21,26 +21,25 @@ jobs:
           dotnet-version: |
              8.0.x
              9.0.x
-             
-      - name: Restaurar dependencias
+      - name: Restore dependencies
         run: dotnet restore
 
-      - name: Compilar solución
+      - name: Build
         run: dotnet build --no-restore
 
-      - name: Ejecutar tests
+      - name: Test
         run: dotnet test --no-build --verbosity normal
 
-      - name: 📧 Enviar email de notificación
+      - name: Send Mail
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: app.debugmail.io
-          server_port: 25
+          server_address: ${{ secrets.EMAIL_HOST }}
+          server_port: ${{ secrets.EMAIL_PORT }}
           username: ${{ secrets.MAIL_USER }}
           password: ${{ secrets.MAIL_PASS }}
-          subject: "✅ CI completado - Proyecto AcademiaNovit"
-          to: test@debugmail.io
-          from: AcademiaNovit@debugmail.io
+          subject: "test GithubActions - Send Email - academiaNovit"
+          to: eduatrigo@gmail.com
+          from: AcademiaNovit-EduardoTrigo
           body: |
             El workflow GH-build-DEV fue ejecutado exitosamente.
             ✔ Proyecto compilado
