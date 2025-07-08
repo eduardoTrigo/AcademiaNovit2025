@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - name: 📦 Checkout del código fuente
+      - name: Checkout del código fuente
         uses: actions/checkout@v4
 
       - name: 🛠 Setup .NET
@@ -20,16 +20,16 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: 📥 Restaurar dependencias
+      - name: Restaurar dependencias
         run: dotnet restore
 
-      - name: 🏗 Compilar solución
+      - name: Compilar solución
         run: dotnet build --no-restore
 
-      - name: 🧪 Ejecutar tests
+      - name: Ejecutar tests
         run: dotnet test --no-build --verbosity normal
 
-      - name: 📧 Enviar notificación por correo
+      - name: Enviar notificación por correo
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.debugmail.io
