@@ -1,0 +1,48 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: GH-build-DEV
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: 📦 Checkout del código fuente
+        uses: actions/checkout@v4
+
+      - name: 🛠 Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: 📥 Restaurar dependencias
+        run: dotnet restore
+
+      - name: 🏗 Compilar solución
+        run: dotnet build --no-restore
+
+      - name: 🧪 Ejecutar tests
+        run: dotnet test --no-build --verbosity normal
+
+      - name: 📧 Enviar notificación por correo
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.debugmail.io
+          server_port: 25
+          username: ${{ secrets.MAIL_USER }}
+          password: ${{ secrets.MAIL_PASS }}
+          subject: "✅ CI Finalizado - Proyecto AcademiaNovit"
+          to: eduatrigo@gmail.com
+          from: eduatrigo@gmail.com
+          body: |
+            El pipeline GH-build-DEV se ejecutó correctamente.
+            ✔ Compilación exitosa
+            ✔ Tests completados
+            ✔ Secrets aplicados
