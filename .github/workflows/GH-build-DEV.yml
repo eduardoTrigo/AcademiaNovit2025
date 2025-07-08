@@ -18,16 +18,11 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-<<<<<<< HEAD
-          dotnet-version: 8.0.x
-
-      - name: 📥 Restaurar dependencias
-=======
           dotnet-version: |
              8.0.x
              9.0.x
+             
       - name: Restaurar dependencias
->>>>>>> 4345914 (Update GH-build-DEV.yml)
         run: dotnet restore
 
       - name: Compilar solución
