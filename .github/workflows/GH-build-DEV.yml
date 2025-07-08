@@ -36,18 +36,18 @@ jobs:
       - name: Ejecutar tests
         run: dotnet test --no-build --verbosity normal
 
-      - name: Enviar notificación por correo
+      - name: 📧 Enviar email de notificación
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.debugmail.io
+          server_address: app.debugmail.io
           server_port: 25
           username: ${{ secrets.MAIL_USER }}
           password: ${{ secrets.MAIL_PASS }}
-          subject: "CI Finalizado - Proyecto AcademiaNovit"
-          to: eduatrigo@gmail.com
-          from: eduatrigo@gmail.com
+          subject: "✅ CI completado - Proyecto AcademiaNovit"
+          to: test@debugmail.io
+          from: AcademiaNovit@debugmail.io
           body: |
-            El pipeline GH-build-DEV se ejecutó correctamente.
-            ✔ Compilación exitosa
-            ✔ Tests completados
-            ✔ Secrets aplicados
+            El workflow GH-build-DEV fue ejecutado exitosamente.
+            ✔ Proyecto compilado
+            ✔ Tests ejecutados
+            ✔ Notificación enviada por correo
