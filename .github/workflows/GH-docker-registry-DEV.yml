@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - name: 📥 Clonar el repositorio
+    - name: Clonar el repositorio
       uses: actions/checkout@v4
 
-    - name: 🐳 Login a GitHub Container Registry
+    - name: Login a GitHub Container Registry
       run: echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-    - name: 🏗️ Build de la imagen Docker
+    - name: Build de la imagen Docker
       run: docker build -t ghcr.io/eduardotrigo/academianovit2025:dev .
 
-    - name: 📤 Push de la imagen al Container Registry
+    - name: Push de la imagen al Container Registry
       run: docker push ghcr.io/eduardotrigo/academianovit2025:dev
