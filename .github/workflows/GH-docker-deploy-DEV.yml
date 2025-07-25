@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Login en GitHub Container Registry
-        run: echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u eduardotrigo --password-stdin
+        run: echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u eduardoTrigo --password-stdin
 
       - name: Re-tag de imagen dev a prod y push
         run: |
