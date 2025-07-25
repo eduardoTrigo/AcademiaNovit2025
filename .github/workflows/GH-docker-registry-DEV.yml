@@ -1,4 +1,4 @@
-name: 🐳 GH-docker-registry-DEV
+name: GH-docker-registry-DEV
 
 on:
   push:
