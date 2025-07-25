@@ -33,8 +33,8 @@ jobs:
       - name: Send Mail
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: ${{ secrets.EMAIL_HOST}}
-          server_port: ${{ secrets.EMAIL_PORT}}
+          server_address: ${{ secrets.EMAIL_HOST }}
+          server_port: ${{ secrets.EMAIL_PORT }}
           username: ${{ secrets.MAIL_USER }}
           password: ${{ secrets.MAIL_PASS }}
           subject: "test GithubActions - Send Email - academiaNovit"
@@ -45,3 +45,4 @@ jobs:
             ✔ Proyecto compilado
             ✔ Tests ejecutados
             ✔ Notificación enviada por correo
+
