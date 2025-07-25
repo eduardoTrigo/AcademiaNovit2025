@@ -5,22 +5,22 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v3
 
       - name: Login en GitHub Container Registry
-        run: echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u eduardoTrigo --password-stdin
+        run: echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u eduardotrigo --password-stdin
 
-      - name: Re-tag de imagen dev a prod y push
+      - name: Retag de la imagen dev a prod y push
         run: |
           docker pull ghcr.io/eduardotrigo/academianovit2025:dev
           docker tag ghcr.io/eduardotrigo/academianovit2025:dev ghcr.io/eduardotrigo/academianovit2025:prod
           docker push ghcr.io/eduardotrigo/academianovit2025:prod
 
-      - name: Conexión SSH y despliegue en la VM
+      - name: Conexión SSH a la VM y despliegue con docker-compose
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -30,6 +30,6 @@ jobs:
           script: |
             echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u eduardotrigo --password-stdin
             docker pull ghcr.io/eduardotrigo/academianovit2025:prod
-            docker stop novit-web-1 || true
-            docker rm novit-web-1 || true
+            docker stop novit-web || true
+            docker rm novit-web || true
             docker compose -f ~/docker-compose.yml up -d
