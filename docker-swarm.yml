@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  web:
+    image: ghcr.io/eduardotrigo/academianovit2025:prod
+    deploy:
+      replicas: 5
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=postgres;Username=admin;Password=tivon1234
+    networks:
+      - novit-net
+
+  db:
+    image: postgres:17.5
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: tivon1234
+    volumes:
+      - novit_postgres-data:/var/lib/postgresql/data
+    networks:
+      - novit-net
+
+volumes:
+  novit_postgres-data:
+
+networks:
+  novit-net:
+    driver: overlay
