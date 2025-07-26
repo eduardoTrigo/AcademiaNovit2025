@@ -1,4 +1,4 @@
-name: GH-docker-deploy-DEV.yml
+name: GH-docker-deploy-DEV
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Login en GitHub Container Registry
-        run: echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u eduardotrigo --password-stdin
+        run: echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Retag de la imagen dev a prod y push
         run: |
@@ -29,7 +29,13 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u eduardotrigo --password-stdin
-            docker pull ghcr.io/eduardotrigo/academianovit2025:prod
-            docker stop novit-web || true
-            docker rm novit-web || true
-            docker compose -f ~/docker-compose.yml up -d
+
+            # Reemplazar la imagen en el archivo docker-compose.yml
+            sed -i 's|academianovit2025:dev|academianovit2025:prod|g' ~/docker-compose.yml
+
+            # Descargar la nueva imagen
+            docker compose -f ~/docker-compose.yml pull
+
+            # Volver a levantar los servicios
+            docker compose -f ~/docker-compose.yml up -d --remove-orphans
+
