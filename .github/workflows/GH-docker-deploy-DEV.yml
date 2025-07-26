@@ -28,7 +28,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u eduardotrigo --password-stdin
 
             # Reemplazar la imagen en el archivo docker-compose.yml
             sed -i 's|academianovit2025:dev|academianovit2025:prod|g' ~/docker-compose.yml
